@@ -138,14 +138,9 @@ def main():
                 args.env_name, args.seed + args.num_processes, args.num_processes,
                 args.gamma, eval_log_dir, args.add_timestep, device, True)
 
-            vec_norm = get_vec_normalize(eval_envs)
-            if vec_norm is not None:
-                vec_norm.eval()
-                vec_norm.ob_rms = get_vec_normalize(envs).ob_rms
-
             eval_episode_rewards = []
 
-            obs = eval_envs.reset()
+            obs = eval_envs.reset().to(device)
             eval_recurrent_hidden_states = torch.zeros(args.num_processes,
                             actor_critic.recurrent_hidden_state_size, device=device)
             eval_masks = torch.zeros(args.num_processes, 1, device=device)
@@ -158,8 +153,9 @@ def main():
                 # Obser reward and next obs
                 obs, _, done, infos = eval_envs.step(action)
 
+                obs = obs.to(device)
                 eval_masks = torch.FloatTensor([[0.0] if done_ else [1.0]
-                                                for done_ in done])
+                                                for done_ in done]).to(device)
                 for info in infos:
                     if 'episode' in info.keys():
                         eval_episode_rewards.append(info['episode']['r'])
