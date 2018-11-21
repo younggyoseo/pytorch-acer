@@ -44,3 +44,7 @@ pip install 'atari[gym]'
 `python main.py --env 'PongNoFrameskip-v4' --num-processes 4 --recurrent-policy`
 
 ![PongNoFrameskip-v4](imgs/pong.png)
+
+# Acknowledgements
+- openai(https://github.com/openai/baselines)
+- ikostrikov(https://github.com/ikostrikov/pytorch-a2c-ppo-acktr)
