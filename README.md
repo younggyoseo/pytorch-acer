@@ -45,6 +45,10 @@ pip install 'atari[gym]'
 
 ![PongNoFrameskip-v4](imgs/pong.png)
 
+`python main.py --env 'BreakoutNoFrameskip-v4' --num-processes 16`
+
+![BreakoutNoFrameskip-v4](imgs/breakout.png)
+
 # Acknowledgements
 - openai(https://github.com/openai/baselines)
 - ikostrikov(https://github.com/ikostrikov/pytorch-a2c-ppo-acktr)
