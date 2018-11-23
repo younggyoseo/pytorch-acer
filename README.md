@@ -13,11 +13,11 @@ A few notes:
 
 - Used `torch.autograd.grad` with `torch.autograd.backward` for TRPO implementation.
 
-- Current implementation of ACER requires a lot of RAM to run atari games. I'm currently working on this but i appreciate any contribution or helps!
-    - `--num-processes 2` : 13.5GB of RAM required
-    - `--num-processes 4` : 24.7GB of RAM required
-    - `--num-processes 8` : 47.2GB of RAM required
-    - `--num-processes 16`: 92.2GB of RAM required
+- Current RAM requirements are:
+    - `--num-processes 4` : 7.8GB of RAM required
+    - `--num-processes 8` : 13.3GB of RAM required
+    - `--num-processes 16`: 24.3GB of RAM required
+    - `--num-processes 32`: 46.5GB of RAM required
 
 
 
