@@ -23,7 +23,7 @@ class ACER():
         if on_policy:
             for step in range(self.num_steps):
                 with torch.no_grad():
-                    policy, _, q_value, action, action_log_prob, recurrent_hidden_states = actor_critic.act(
+                    policy, _, q_value, action, _, recurrent_hidden_states = actor_critic.act(
                         rollouts.obs[step],
                         rollouts.recurrent_hidden_states[step],
                         rollouts.masks[step])
@@ -37,18 +37,17 @@ class ACER():
                 # If done then clean the history of observations.
                 masks = torch.FloatTensor([[0.0] if done_ else [1.0]
                                             for done_ in done])
-                rollouts.insert(obs, recurrent_hidden_states, action, action_log_prob, policy, 
+                rollouts.insert(obs, recurrent_hidden_states, action, policy, 
                                 q_value, reward, masks)
 
             buffer.insert(rollouts.obs, rollouts.recurrent_hidden_states, rollouts.actions,
-                        rollouts.action_log_probs, rollouts.policies, rollouts.q_values,
-                        rollouts.rewards, rollouts.masks)
+                        rollouts.policies, rollouts.q_values, rollouts.rewards, rollouts.masks)
 
         else:
             # Off Policy
             rollouts.obs, rollouts.recurrent_hidden_states, rollouts.rewards,\
-                rollouts.policies, rollouts.q_values, rollouts.action_log_probs,\
-                    rollouts.actions, rollouts.masks = buffer.get()
+                rollouts.policies, rollouts.q_values, rollouts.actions,\
+                    rollouts.masks = buffer.get()
             rollouts.to(self.device)
 
         value_loss, action_loss, dist_entropy = agent.update(rollouts, on_policy)
